@@ -82,7 +82,7 @@ func NewSyslogAdapter(route *router.Route) (router.LogAdapter, error) {
 	pid := getopt("SYSLOG_PID", "{{.Container.State.Pid}}")
 	hostname = getHostname()
 
-	tag := getopt("SYSLOG_TAG", "{{.ContainerName}}"+route.Options["append_tag"])
+	tag := getopt("SYSLOG_TAG", "{{index .Container.Config.Labels \"com.docker.swarm.service.name\"}}" + route.Options["append_tag"])
 	structuredData := getopt("SYSLOG_STRUCTURED_DATA", "")
 	if route.Options["structured_data"] != "" {
 		structuredData = route.Options["structured_data"]
